@@ -437,6 +437,7 @@
 
 *
 */
+
 function tripleTriad(enemy_id) {
     $dataTripleTriad.enemy_id = enemy_id;
     $dataTripleTriad.push_triple_triad = true;
@@ -455,7 +456,7 @@ function tripleTriadRemoveCard(card_id) {
 };
 
 function tripleTriadHasCard(card_id) {
-    return ($dataTripleTriad.self_tt_cards.includes(card_id) && $dataTripleTriad.all_cards.includes(card_id));
+    return ($dataTripleTriad.self_tt_cards.includes(card_id) || $dataTripleTriad.all_cards.includes(card_id));
 };
 
 function tripleTriadCardsOwned() {
@@ -480,8 +481,6 @@ function remove_specific_card_tt(arr, card) {
 };
 
 function Game_TripleTriad() {
-    //self_tt_cards: [0, 1, 4, 4, 4],
-    //enemy_tt_cards: [1, 1, 4, 4, 4],
     this.self_tt_cards = [];
     this.enemy_tt_cards = new Array();
     this.enemy_tt_reserve = new Array();
@@ -637,7 +636,7 @@ Scene_TripleTriad.prototype.initialize_variables = function (replay = false) {
     this.score = 5;
     this.first_enemy_index = 5;
 
-    this.is_using_cursor = false;
+    this.is_using_cursor = true;
     this.is_card_picked = false;
     this.distance_cards = parseInt(this.card_positions['Distance_Cards']);
     this.initial_position_x = parseInt(this.card_positions["Player_1_X"]);
@@ -3109,7 +3108,7 @@ Scene_Album_TT.prototype.addCard = function () {
     this.phase = 1;
     this.remove_specific_item($dataTripleTriad.all_cards, this.index);
     this.add_single_card_image(this._cards_player_1_A, $dataTripleTriad.self_tt_cards.length, parseInt(this.image_list['Cards_Hand_X']) + $dataTripleTriad.self_tt_cards.length * parseInt(this.image_list['Distance']), parseInt(this.image_list['Cards_Hand_Y']), this.index, false);
-    this.card_end_position[0] = 100 + $dataTripleTriad.self_tt_cards.length * parseInt(this.image_list['Distance']);
+    this.card_end_position[0] = parseInt(this.image_list['Cards_Hand_X']) + $dataTripleTriad.self_tt_cards.length * parseInt(this.image_list['Distance']);
     $dataTripleTriad.self_tt_cards.push(this.index);
     this._cardDetailsWindow.refresh(this.index);
     this.triple_triad_frame_count = 0;
